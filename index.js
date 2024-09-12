@@ -19,18 +19,21 @@ app.get('/api/registrar-visita', async (req, res) => {
         const nuevaVisita = {
             ip: req.ip,
             user_agent: req.get('User-Agent'),
-            fecha: new Date(),
+            fecha: new Date().toISOString(),
         };
 
         const { data, error } = await supabase
             .from('visitas')
             .insert([nuevaVisita]);
 
-        if (error) throw error;
+        if (error) {
+            console.error('Error al registrar la visita:', error.message);
+            return res.status(500).json({ error: 'Error al registrar la visita.' });
+        }
 
         res.status(201).json({ message: 'Visita registrada correctamente.', data });
     } catch (error) {
-        console.error('Error al registrar la visita:', error);
+        console.error('Error al registrar la visita:', error.message);
         res.status(500).json({ error: 'Error al registrar la visita.' });
     }
 });
