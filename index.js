@@ -5,15 +5,12 @@ const { createClient } = require('@supabase/supabase-js');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Configuración de Supabase
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-// Middleware para analizar el cuerpo de la solicitud
 app.use(express.json());
 
-// Ruta para registrar visitas
 app.get('/api/registrar-visita', async (req, res) => {
     try {
         const nuevaVisita = {
@@ -38,7 +35,6 @@ app.get('/api/registrar-visita', async (req, res) => {
     }
 });
 
-// Iniciar el servidor
 app.listen(PORT, () => {
     console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
